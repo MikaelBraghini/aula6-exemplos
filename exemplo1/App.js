@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Importação do useState
 import {
   View,
   Text,
@@ -11,20 +11,23 @@ import {
   SectionList,
   ActivityIndicator,
   StyleSheet,
-} from 'react-native';
+} from 'react-native'; // Importação dos componentes necessários do React Native
 
 const App = () => {
-  const [text, setText] = useState('');
-  const [imageWidth, setImageWidth] = useState(200);
-  const [isLoading, setIsLoading] = useState(false);
-  const [sliderValue, setSliderValue] = useState(0);
+  // Definindo o estado dos componentes
+  const [text, setText] = useState(''); // Estado para armazenar texto do TextInput
+  const [imageWidth, setImageWidth] = useState(200); // Estado para a largura da imagem
+  const [isLoading, setIsLoading] = useState(false); // Estado para controlar a animação de carregamento
+  const [sliderValue, setSliderValue] = useState(0); // Estado para o valor do slider (não utilizado no código)
 
+  // Dados para exibição em FlatList
   const data = [
     { id: '1', name: 'Item 1' },
     { id: '2', name: 'Item 2' },
     { id: '3', name: 'Item 3' },
   ];
 
+  // Dados para exibição em SectionList
   const sections = [
     {
       title: 'Section 1',
@@ -36,55 +39,73 @@ const App = () => {
     { title: 'Section 2', data: [{ id: '3', name: 'Item 3' }] },
   ];
 
+  // Função chamada ao pressionar o botão
   const handlePress = () => {
-    setIsLoading(true);
+    setIsLoading(true); // Inicia o carregamento
     setTimeout(() => {
-      setIsLoading(false);
-      alert('Button pressed!');
+      setIsLoading(false); // Finaliza o carregamento após 2 segundos
+      alert('Button pressed!'); // Exibe um alerta
     }, 2000);
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container}> {/* Container com ScrollView para permitir rolagem */}
       <View style={styles.view}>
-        <Text style={styles.text}>Hello React Native!</Text>
+        <Text style={styles.text}>Hello React Native!</Text> {/* Texto exibido na tela */}
+        
+        {/* Exibe uma imagem com a largura controlada pelo estado */}
         <Image
           source={{ uri: 'https://reactnative.dev/img/react_native_logo.png' }}
-          style={[styles.image, { width: imageWidth }]}
+          style={[styles.image, { width: imageWidth }]} // A largura da imagem é ajustável
         />
+        
+        {/* Campo de texto que atualiza o estado 'text' */}
         <TextInput
           style={styles.textInput}
           placeholder="Enter text"
           value={text}
-          onChangeText={setText}
+          onChangeText={setText} // Atualiza o estado com o texto inserido
         />
+        
+        {/* Botão que aciona a função handlePress */}
         <Button title="Press me" onPress={handlePress} />
+        
+        {/* TouchableOpacity que aumenta a largura da imagem ao ser pressionado */}
         <TouchableOpacity
           style={styles.touchableOpacity}
           onPress={() => setImageWidth(imageWidth + 50)}
         >
           <Text style={styles.touchableOpacityText}>Increase Image Width</Text>
         </TouchableOpacity>
+        
+        {/* Indicador de carregamento (ActivityIndicator) exibido quando isLoading é true */}
         <ActivityIndicator size="large" color="#0000ff" animating={isLoading} />
+        
+        {/* Exibe o valor do slider (não utilizado, mas presente no estado) */}
         <Text>Slider Value: {sliderValue.toFixed(0)}</Text>
       </View>
+      
+      {/* Exibe uma lista simples com FlatList */}
       <FlatList
         data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Text>{item.name}</Text>}
+        keyExtractor={(item) => item.id} // Chave única para cada item da lista
+        renderItem={({ item }) => <Text>{item.name}</Text>} // Renderiza o nome de cada item
       />
+      
+      {/* Exibe uma lista com seções usando SectionList */}
       <SectionList
         sections={sections}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Text>{item.name}</Text>}
+        keyExtractor={(item) => item.id} // Chave única para cada item da lista
+        renderItem={({ item }) => <Text>{item.name}</Text>} // Renderiza o nome de cada item
         renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.sectionHeader}>{title}</Text>
+          <Text style={styles.sectionHeader}>{title}</Text> // Renderiza o título da seção
         )}
       />
     </ScrollView>
   );
 };
 
+// Estilos para os componentes
 const styles = StyleSheet.create({
   container: {
     flex: 1,
